@@ -4,7 +4,7 @@ from cereal import log
 import logging
 import datetime
 
-CAMERA_OFFSET = 0.06  # m from center car to camera
+CAMERA_OFFSET = 0.12  # m from center car to camera
 
 def compute_path_pinv(l=50):
   deg = 3
