@@ -1,6 +1,8 @@
 from common.numpy_fast import interp
 import numpy as np
 from cereal import log
+import logging
+import datetime
 
 CAMERA_OFFSET = 0.06  # m from center car to camera
 
@@ -18,6 +20,31 @@ def model_polyfit(points, path_pinv):
 
 def calc_d_poly(l_poly, r_poly, p_poly, l_prob, r_prob, lane_width):
   # This will improve behaviour when lanes suddenly widen
+
+   #curb offset calculator
+  MAX_CURB_OFFSET = 0.05
+  curb_offset = 0.
+
+  if l_prob >= 0.5:
+   # only apply correction if there is high confidence on left lane line
+
+   if r_prob < 0.2:
+     curb_offset = MAX_CURB_OFFSET
+   elif r_prob >=0.7:
+     pass
+   else:
+     multiplier = MAX_CURB_OFFSET/(0.7 - 0.2)
+     curb_offset = multiplier * (r_prob - 0.2)
+
+   # adding to same poly that is used for CAMERA_OFFSET
+   l_poly[3] += curb_offset
+   r_poly[3] += curb_offset
+
+   if curb_offset > 0:
+    logging.info("{} -- l_prob:{} r_prob:{} :: curb_offset:{}".format(datetime.datetime.now(), l_prob, r_prob, curb_offset))
+
+ #curb offset end calculation
+
   lane_width = min(4.0, lane_width)
   l_prob = l_prob * interp(abs(l_poly[3]), [2, 2.5], [1.0, 0.0])
   r_prob = r_prob * interp(abs(r_poly[3]), [2, 2.5], [1.0, 0.0])

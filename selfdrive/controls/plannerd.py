@@ -11,6 +11,10 @@ from selfdrive.controls.lib.pathplanner import PathPlanner
 import cereal.messaging as messaging
 
 
+import logging
+import datetime
+
+
 def plannerd_thread(sm=None, pm=None):
   gc.disable()
 
@@ -36,6 +40,9 @@ def plannerd_thread(sm=None, pm=None):
   sm['liveParameters'].sensorValid = True
   sm['liveParameters'].steerRatio = CP.steerRatio
   sm['liveParameters'].stiffnessFactor = 1.0
+
+  log_file_name = "/data/logs/" + datetime.datetime.now().strftime("%Y_%m_%d-%I:%M:%p")
+  logging.basicConfig(filename=log_file_name,level=logging.DEBUG)
 
   while True:
     sm.update()
