@@ -2,7 +2,7 @@ from common.numpy_fast import interp
 import numpy as np
 from cereal import log
 
-CAMERA_OFFSET = 0.08  # m from center car to camera
+CAMERA_OFFSET = 0.09  # m from center car to camera
 
 def compute_path_pinv(l=50):
   deg = 3
@@ -21,7 +21,7 @@ def calc_d_poly(l_poly, r_poly, p_poly, l_prob, r_prob, lane_width):
 
    #curb offset calculator
   MAX_CURB_OFFSET = 0.3
-  # LEFT_CURB_OFFSET = 0.2
+  LEFT_CURB_OFFSET = 0.3
   curb_offset = 0.
 
   if l_prob >= 0.5:
@@ -39,12 +39,12 @@ def calc_d_poly(l_poly, r_poly, p_poly, l_prob, r_prob, lane_width):
    l_poly[3] += curb_offset
    r_poly[3] += curb_offset
 
-  # if r_prob >= 0.7 and l_prob < 0.3:
-  #  # curb on left. drive a little bit towards center lane
+  if r_prob >= 0.7 and l_prob < 0.3:
+   # curb on left. drive a little bit towards center lane
 
-  #  # adding to same poly that is used for CAMERA_OFFSET
-  #  l_poly[3] -= LEFT_CURB_OFFSET
-  #  r_poly[3] -= LEFT_CURB_OFFSET
+   # adding to same poly that is used for CAMERA_OFFSET
+   l_poly[3] -= LEFT_CURB_OFFSET
+   r_poly[3] -= LEFT_CURB_OFFSET
 
  #curb offset end calculation
 
