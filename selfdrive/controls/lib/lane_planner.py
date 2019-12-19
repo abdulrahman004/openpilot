@@ -20,19 +20,19 @@ def calc_d_poly(l_poly, r_poly, p_poly, l_prob, r_prob, lane_width):
   # This will improve behaviour when lanes suddenly widen
 
    #curb offset calculator
-  MAX_CURB_OFFSET = 0.4
-  LEFT_CURB_OFFSET = 0.4
+  RIGHT_MAX_CURB_OFFSET = 0.5
+  LEFT_CURB_OFFSET = 0.2
   curb_offset = 0.
 
   if l_prob >= 0.5:
    # only apply correction if there is high confidence on left lane line
 
    if r_prob < 0.2:
-     curb_offset = MAX_CURB_OFFSET
+     curb_offset = RIGHT_MAX_CURB_OFFSET
    elif r_prob >=0.7:
      pass
    else:
-     multiplier = MAX_CURB_OFFSET/(0.7 - 0.2)
+     multiplier = RIGHT_MAX_CURB_OFFSET/(0.7 - 0.2)
      curb_offset = multiplier * (r_prob - 0.2)
 
    # adding to same poly that is used for CAMERA_OFFSET
