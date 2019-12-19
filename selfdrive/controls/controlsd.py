@@ -335,13 +335,13 @@ def data_send(sm, pm, CS, CI, CP, VM, state, events, actuators, v_cruise_kph, rk
   CC.hudControl.lanesVisible = isEnabled(state)
   CC.hudControl.leadVisible = sm['plan'].hasLead
 
-  right_lane_visible = sm['pathPlan'].rProb > 0.5
-  left_lane_visible = sm['pathPlan'].lProb > 0.5
+  right_lane_visible = sm['pathPlan'].rProb > 0.35
+  left_lane_visible = sm['pathPlan'].lProb > 0.35
   CC.hudControl.rightLaneVisible = bool(right_lane_visible)
   CC.hudControl.leftLaneVisible = bool(left_lane_visible)
 
   recent_blinker = (sm.frame - last_blinker_frame) * DT_CTRL < 5.0  # 5s blinker cooldown
-  ldw_allowed = CS.vEgo > 31 * CV.MPH_TO_MS and not recent_blinker and is_ldw_enabled and not isActive(state)
+  ldw_allowed = CS.vEgo > 15 * CV.MPH_TO_MS and not recent_blinker and is_ldw_enabled and not isActive(state)
 
   md = sm['model']
   if len(md.meta.desirePrediction):
