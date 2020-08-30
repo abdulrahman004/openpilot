@@ -22,7 +22,7 @@ from selfdrive.controls.lib.vehicle_model import VehicleModel
 from selfdrive.controls.lib.planner import LON_MPC_STEP
 from selfdrive.locationd.calibration_helpers import Calibration
 
-LDW_MIN_SPEED = 31 * CV.MPH_TO_MS
+LDW_MIN_SPEED = 15 * CV.MPH_TO_MS
 LANE_DEPARTURE_THRESHOLD = 0.1
 STEER_ANGLE_SATURATION_TIMEOUT = 1.0 / DT_CTRL
 STEER_ANGLE_SATURATION_THRESHOLD = 2.5  # Degrees
@@ -484,6 +484,9 @@ class Controls:
     controlsState.mapValid = self.sm['plan'].mapValid
     controlsState.forceDecel = bool(force_decel)
     controlsState.canErrorCounter = self.can_error_counter
+
+    if self.v_cruise_kph != 255:
+      controlsState.vCruise = controlsState.vCruise * 1.046
 
     if self.CP.lateralTuning.which() == 'pid':
       controlsState.lateralControlState.pidState = lac_log
