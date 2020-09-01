@@ -27,7 +27,7 @@ def calc_d_poly(l_poly, r_poly, p_poly, l_prob, r_prob, lane_width, v_ego):
 
   # START curb offset calculator
   RIGHT_MAX_CURB_OFFSET = 0.3
-  LEFT_CURB_OFFSET = 0.2
+  LEFT_CURB_OFFSET = 0.1
   curb_offset = 0.
 
   if l_prob >= 0.5:
