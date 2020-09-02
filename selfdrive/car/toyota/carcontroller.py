@@ -72,10 +72,10 @@ class CarController():
     new_accel_max = ACCEL_MAX
     if curr_speed_mph > 10:
       if curr_speed_mph >= 50:
-        new_accel_max = 0.5
+        new_accel_max = 0.3
       else:
         # variable max_aceel between 10 mph and 50 mph
-        new_accel_max = ACCEL_MAX - ((curr_speed_mph - 10.0)/ 40)
+        new_accel_max = ACCEL_MAX - (((curr_speed_mph - 10.0)/ 40) +  0.2)
 
     apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady, enabled)
     apply_accel = clip(apply_accel * ACCEL_SCALE, ACCEL_MIN, new_accel_max)
