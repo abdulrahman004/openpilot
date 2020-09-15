@@ -69,8 +69,8 @@ class CarController():
       apply_accel = actuators.gas - actuators.brake
 
     """
-    0 - 13mph: max accel of 1.7
-    13-50 mph - 1.7m/s2 - 0.5 m/s2 dropping linearly with speed
+    0 - 13mph: max accel of 1.5
+    13-50 mph - 1.5m/s2 - 0.5 m/s2 dropping linearly with speed
     50 mph + = 0.5
 
     """
