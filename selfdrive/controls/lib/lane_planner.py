@@ -97,15 +97,15 @@ class LanePlanner:
        curb_offset = multiplier * (r_prob - 0.2)
 
      # adding to same poly that is used for CAMERA_OFFSET
-     self.lll_y[0] += curb_offset
-     self.rll_y[0] += curb_offset
+     self.lll_y += curb_offset
+     self.rll_y += curb_offset
 
     if r_prob >= 0.7 and l_prob < 0.3:
      # curb on left. drive a little bit towards center lane
 
      # adding to same poly that is used for CAMERA_OFFSET
-     self.lll_y[0] -= LEFT_CURB_OFFSET
-     self.rll_y[0] -= LEFT_CURB_OFFSET
+     self.lll_y -= LEFT_CURB_OFFSET
+     self.rll_y -= LEFT_CURB_OFFSET
 
     # END curb offset end calculation
 
