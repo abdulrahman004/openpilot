@@ -84,6 +84,36 @@ class LanePlanner:
     self.lane_width = self.lane_width_certainty * self.lane_width_estimate + \
                       (1 - self.lane_width_certainty) * speed_lane_width
 
+
+    # START curb offset calculator
+    RIGHT_MAX_CURB_OFFSET = 0.15
+    LEFT_CURB_OFFSET = 0.1
+    curb_offset = 0.
+
+    if l_prob >= 0.5:
+     # only apply correction if there is high confidence on left lane line
+
+     if r_prob < 0.2:
+       curb_offset = RIGHT_MAX_CURB_OFFSET
+     elif r_prob >=0.7:
+       pass
+     else:
+       multiplier = RIGHT_MAX_CURB_OFFSET/(0.7 - 0.2)
+       curb_offset = multiplier * (r_prob - 0.2)
+
+     # adding to same poly that is used for CAMERA_OFFSET
+     self.lll_y -= curb_offset
+     self.rll_y -= curb_offset
+
+    if r_prob >= 0.7 and l_prob < 0.3:
+     # curb on left. drive a little bit towards center lane
+
+     # adding to same poly that is used for CAMERA_OFFSET
+     self.lll_y += LEFT_CURB_OFFSET
+     self.rll_y += LEFT_CURB_OFFSET
+
+    # END curb offset end calculation
+
     clipped_lane_width = min(4.0, self.lane_width)
     path_from_left_lane = self.lll_y + clipped_lane_width / 2.0
     path_from_right_lane = self.rll_y - clipped_lane_width / 2.0
